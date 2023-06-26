@@ -74,3 +74,43 @@ y se obtiene la siguiente respuesta:
 * MediatR.Extensions.Microsoft.DependencyInjection
 * AutoMapper.Extensions.Microsoft.DependencyInjection
 
+# Pasos para ejecutar la solucion
+
+1. compilar la solucion completa y ejecutarla por separado tanto el Api como el Web
+2. Solo es necesario compilar y ejecutar ya que el archivo de proyecto esta configurado para instalar los paquetes nuget durante la compilacion.
+3. Para configurar la ruta del servicio solo basta abrir el archivo https://github.com/dfarizala/NewShore/blob/main/NewshoreTest.Web/Controllers/HomeController.cs y cambiar la variable `_baseUrl`  por la url correcta del servicio
+
+       [HttpPost]
+        [ValidateAntiForgeryToken]
+        async public Task<ActionResult> Browse(IFormCollection collection)
+        {
+            var _baseUrl = "http://localhost:5210";
+    
+            RequestViewModel FlightOBject = new RequestViewModel
+            {
+                Destino = collection["Destino"].ToString(),
+                Moneda = collection["Moneda"].ToString(),
+                Origen = collection["Origen"].ToString()
+            };
+    
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_baseUrl);
+                client.DefaultRequestHeaders.Clear();
+                //HttpContent _Content = new JsonContent(_Request, );
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage Res = await client.PostAsJsonAsync("api/GetTravel", FlightOBject);
+                if (Res.IsSuccessStatusCode)
+                {
+                    var UserResponse = Res.Content.ReadAsStringAsync().Result;
+                    var _Result = JsonConvert.DeserializeObject<GetTravelResponse>(UserResponse);
+    
+                    if (_Result.Status != "OK")
+                        throw new Exception("Error retreiving flights");
+                }
+    
+            }
+    
+            return RedirectToAction(nameof(Index));
+        }
+
