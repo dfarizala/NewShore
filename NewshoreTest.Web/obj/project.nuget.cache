@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "7AVrvYD25kofcI0XX8Eg4BeHlVAYNbKdpiZS099xqq2JXLRWVAhA/KFvaO6syAtiW17VCKzVrrx7M93HJ7M8bw==",
+  "success": true,
+  "projectFilePath": "D:\\Projects\\NewshoreTest\\NewshoreTest.Web\\NewshoreTest.Web.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Usuario\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
